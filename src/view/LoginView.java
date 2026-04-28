@@ -1,12 +1,17 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
-public class LoginFrame extends JFrame {
+public class LoginView extends JFrame {
 
     private JTextField tfUsername;
     private JPasswordField tfPassword;
+    private JButton btnLogin;
+    private JButton btnRegister;
 
-    public LoginFrame() {
+    public LoginView() {
         setTitle("Prijava - Administrator");
         setSize(400, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,12 +46,8 @@ public class LoginFrame extends JFrame {
 
         // Dugmad
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        JButton btnLogin = new JButton("Prijavi se");
-        JButton btnRegister = new JButton("Registruj se");
-
-        btnLogin.addActionListener(e -> handleLogin());
-        btnRegister.addActionListener(e -> openRegister());
-
+        btnLogin = new JButton("Prijavi se");
+        btnRegister = new JButton("Registruj se");
         btnPanel.add(btnLogin);
         btnPanel.add(btnRegister);
 
@@ -56,31 +57,37 @@ public class LoginFrame extends JFrame {
         add(panel);
     }
 
-    private void handleLogin() {
-        String username = tfUsername.getText().trim();
-        String password = new String(tfPassword.getPassword());
+    // --- Getteri za podatke iz forme ---
 
-        if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Unesite korisnicko ime i lozinku.",
-                "Greska", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        if (UserFileManager.login(username, password)) {
-            JOptionPane.showMessageDialog(this,
-                "Uspesna prijava! Dobrodosli, " + username + ".",
-                "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-            new AdminPanel(username).setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this,
-                "Pogresno korisnicko ime ili lozinka.",
-                "Greska", JOptionPane.ERROR_MESSAGE);
-        }
+    public String getUsername() {
+        return tfUsername.getText().trim();
     }
 
-    private void openRegister() {
-        new RegisterFrame(this).setVisible(true);
+    public String getPassword() {
+        return new String(tfPassword.getPassword());
+    }
+
+    // --- Listeneri koje controller postavlja ---
+
+    public void addLoginListener(ActionListener listener) {
+        btnLogin.addActionListener(listener);
+    }
+
+    public void addRegisterListener(ActionListener listener) {
+        btnRegister.addActionListener(listener);
+    }
+
+    // --- Prikaz poruka ---
+
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Greska", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showWarning(String message) {
+        JOptionPane.showMessageDialog(this, message, "Greska", JOptionPane.WARNING_MESSAGE);
+    }
+
+    public void showSuccess(String message) {
+        JOptionPane.showMessageDialog(this, message, "Uspeh", JOptionPane.INFORMATION_MESSAGE);
     }
 }

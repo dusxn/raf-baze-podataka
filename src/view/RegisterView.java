@@ -1,15 +1,17 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
-public class RegisterFrame extends JFrame {
+public class RegisterView extends JFrame {
 
     private JTextField tfUsername;
     private JPasswordField tfPassword;
     private JPasswordField tfConfirm;
-    private LoginFrame parentFrame;
+    private JButton btnRegister;
 
-    public RegisterFrame(LoginFrame parent) {
-        this.parentFrame = parent;
+    public RegisterView(JFrame parent) {
         setTitle("Registracija");
         setSize(400, 280);
         setLocationRelativeTo(parent);
@@ -50,42 +52,44 @@ public class RegisterFrame extends JFrame {
         panel.add(tfConfirm, gbc);
 
         // Dugme
-        JButton btnRegister = new JButton("Registruj se");
-        btnRegister.addActionListener(e -> handleRegister());
+        btnRegister = new JButton("Registruj se");
         gbc.gridx = 0; gbc.gridy = 4; gbc.gridwidth = 2;
         panel.add(btnRegister, gbc);
 
         add(panel);
     }
 
-    private void handleRegister() {
-        String username = tfUsername.getText().trim();
-        String password = new String(tfPassword.getPassword());
-        String confirm = new String(tfConfirm.getPassword());
+    // --- Getteri ---
 
-        if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Sva polja su obavezna.",
-                "Greska", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+    public String getUsername() {
+        return tfUsername.getText().trim();
+    }
 
-        if (!password.equals(confirm)) {
-            JOptionPane.showMessageDialog(this,
-                "Lozinke se ne poklapaju.",
-                "Greska", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+    public String getPassword() {
+        return new String(tfPassword.getPassword());
+    }
 
-        if (UserFileManager.register(username, password)) {
-            JOptionPane.showMessageDialog(this,
-                "Registracija uspesna! Mozete se prijaviti.",
-                "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this,
-                "Korisnicko ime vec postoji ili je doslo do greske.",
-                "Greska", JOptionPane.ERROR_MESSAGE);
-        }
+    public String getConfirmPassword() {
+        return new String(tfConfirm.getPassword());
+    }
+
+    // --- Listener ---
+
+    public void addRegisterListener(ActionListener listener) {
+        btnRegister.addActionListener(listener);
+    }
+
+    // --- Poruke ---
+
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Greska", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showWarning(String message) {
+        JOptionPane.showMessageDialog(this, message, "Greska", JOptionPane.WARNING_MESSAGE);
+    }
+
+    public void showSuccess(String message) {
+        JOptionPane.showMessageDialog(this, message, "Uspeh", JOptionPane.INFORMATION_MESSAGE);
     }
 }
