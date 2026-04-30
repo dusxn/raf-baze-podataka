@@ -29,7 +29,7 @@ public class AdminController {
         loadLaboratorije();
     }
 
-    // --- Tab 1: Pregled sesija ---
+    //Tab 1: Pregled sesija
 
     private void loadSesije() {
         view.getTableModel().setRowCount(0);
@@ -39,7 +39,7 @@ public class AdminController {
         }
     }
 
-    // --- Tab 2: Izmena sesije ---
+    //Tab 2: Izmena sesije
 
     private void loadSesijaIds() {
         view.clearSesijaIds();
@@ -95,7 +95,7 @@ public class AdminController {
         }
     }
 
-    // --- Tab 3: Brisanje laboratorije ---
+    //Tab 3: Brisanje laboratorije
 
     private void loadLaboratorije() {
         view.clearLaboratorije();

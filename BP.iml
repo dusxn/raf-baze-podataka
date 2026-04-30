@@ -11,6 +11,7 @@
       <library>
         <CLASSES>
           <root url="jar://C:/Java/libs/mysql-connector-j-9.7.0.jar!/" />
+          <root url="jar://C:/Java/mysql-connector-j-9.7.0/mysql-connector-j-9.7.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
